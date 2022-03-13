@@ -6,13 +6,11 @@
 
 		<main class="pdp-admin-page__body">
 			<?php
+
 			$google_api = new PDP_Core_Google();
 			$client = $google_api->get_client();
 
-			if( $client->isAccessTokenExpired() ){
-				$google_api->display_auth_message();
-			}
-			else{
+			if( !$client->isAccessTokenExpired() ){
 				$salons = pdp_get_salons(); ?>
 				<div class="salons-list">
 					<div class="salons-list__header">
@@ -35,8 +33,8 @@
 								</div>
 
 								<div class="salons-list__col salons-list__col_date">
-									<?php if( $salon->_pdp_pricelist_last_update ){ ?>
-										<?=__( 'Последнее обновление:', 'pdp_core' ); ?> <span><?=$salon->_pdp_pricelist_last_update; ?></span>
+									<?php if( $salon->_pricelist_last_update ){ ?>
+										<?=__( 'Последнее обновление:', 'pdp_core' ); ?> <span><?=$salon->_pricelist_last_update; ?></span>
 									<?php } else { ?>
 										<?=__( 'Не обновлялся', 'pdp_core' ); ?>
 									<?php } ?>

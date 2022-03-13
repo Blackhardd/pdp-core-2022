@@ -1,11 +1,14 @@
 <?php
+
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
 /**
  * Require Carbon Fields
  */
+
 add_action( 'after_setup_theme', 'pdp_carbon_fields_load' );
+
 function pdp_carbon_fields_load(){
 	require_once( 'vendor/autoload.php' );
 	\Carbon_Fields\Carbon_Fields::boot();
@@ -15,6 +18,7 @@ function pdp_carbon_fields_load(){
 /**
  *  Admin Menu Pages
  */
+
 add_action( 'admin_menu', function(){
 	add_submenu_page(
 		'crb_carbon_fields_container_pied-de-poule.php',
@@ -91,21 +95,16 @@ function pdp_remove_page_links_for_hierarchical_taxonomies( $selects, $args, $ta
 
 
 function pdp_get_pricelists_id(){
-	$salons = get_posts(
-		array(
-			'numberposts' => -1,
-			'post_type' => 'salon'
-		)
-	);
+	$salons = pdp_get_salons( 'ASC', 'all' );
 
 	$data = [];
 
 	foreach( $salons as $salon ) {
-		$spreadsheet_id = carbon_get_post_meta($salon->ID, 'pricelist_sheet_id');
-		if (!empty($spreadsheet_id)) {
+		$spreadsheet_id = carbon_get_post_meta( $salon->ID, 'pricelist_sheet_id' );
+		if( !empty( $spreadsheet_id ) ){
 			$data[] = array(
-				'salon_id' => $salon->ID,
-				'spreadsheet_id' => $spreadsheet_id
+				'salon_id'          => $salon->ID,
+				'spreadsheet_id'    => $spreadsheet_id
 			);
 		}
 	}
@@ -119,16 +118,6 @@ function pdp_get_pricelist_id( $salon_id = false ){
 	}
 
 	return false;
-}
-
-function pdp_get_promotions( $order = 'ASC' ){
-	$params = array(
-		'numberposts'   => -1,
-		'post_type'     => 'promotion',
-		'order'         => $order
-	);
-
-	return get_posts( $params );
 }
 
 function pdp_cyr_to_lat( $str ){

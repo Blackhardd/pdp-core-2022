@@ -10,23 +10,41 @@ class PDP_Core_Google {
     public function __construct(){
         $this->client_id = carbon_get_theme_option( 'google_client_id' );
         $this->client_secret = carbon_get_theme_option( 'google_secret' );
-        $this->auth_code = isset( $_GET['code'] ) ? $_GET['code'] : false;
-        $this->client = new Google_Client();
-        $this->redirect_url = get_admin_url( null, 'admin.php?page=google-api-settings' );
 
-        $this->config_client();
+        if( $this->client_id && $this->client_secret ){
+	        $this->client = new Google_Client();
+
+	        $this->auth_code = isset( $_GET['code'] ) ? $_GET['code'] : false;
+	        $this->redirect_url = get_admin_url( null, 'admin.php?page=google-api-settings' );
+
+	        $this->config_client();
+        }
     }
 
     public function config_client(){
         $this->client->setClientId( $this->client_id );
         $this->client->setClientSecret( $this->client_secret );
         $this->client->addScope( Google_Service_Sheets::SPREADSHEETS_READONLY );
-        $this->client->setRedirectUri( $this->redirect_url );
         $this->client->setAccessType( 'offline' );
         $this->client->setPrompt( 'select_account' );
 
+	    $this->client->setRedirectUri( $this->redirect_url );
+
         if( $this->get_token() ){
             $this->client->setAccessToken( $this->get_token() );
+        }
+
+        if( $this->client->isAccessTokenExpired() ){
+        	$new_token = $this->client->getRefreshToken();
+
+        	if( $new_token ){
+        		$this->client->fetchAccessTokenWithRefreshToken( $new_token );
+	        }
+        	else{
+				$this->display_auth_message();
+	        }
+
+	        update_option( 'google_token', $this->client->getAccessToken() );
         }
     }
 
@@ -46,7 +64,6 @@ class PDP_Core_Google {
     	}
     	else{
     		$this->client->setAccessToken( $this->client->fetchAccessTokenWithAuthCode( $this->auth_code ) );
-		    update_option( 'google_token', $this->client->getAccessToken() );
     	}
 	}
 }

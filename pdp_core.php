@@ -28,39 +28,21 @@ define( 'PDP_CORE_VERSION', '1.0.2' );
 define( 'PDP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 
-register_activation_hook( __FILE__, 'activate_pdp_core' );
-function activate_pdp_core(){
-	require_once PDP_PLUGIN_PATH . 'includes/class-pdp_core-activator.php';
-	PDP_Core_Activator::activate();
-}
-
-
-register_deactivation_hook( __FILE__, 'deactivate_pdp_core' );
-function deactivate_pdp_core(){
-	require_once PDP_PLUGIN_PATH . 'includes/class-pdp_core-deactivator.php';
-	PDP_Core_Deactivator::deactivate();
-}
-
 require PDP_PLUGIN_PATH . 'includes/class-pdp_core.php';
+require PDP_PLUGIN_PATH . 'pdp_core-functions.php';
+require PDP_PLUGIN_PATH . 'pdp_core-cron.php';
 
+register_activation_hook( __FILE__, 'pdp_activate_cron' );
 
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
+function pdp_activate_cron(){
+	if( !wp_next_scheduled( 'pdp_cron_update_pricelists_daily' ) ){
+		wp_schedule_event( strtotime( date( 'Y-m-d', time() ) . ' 02:00:00' ), 'daily', 'pdp_cron_update_pricelists_daily' );
+	}
+}
+
 function run_pdp_core() {
 	$plugin = new PDP_Core();
 	$plugin->run();
 }
+
 run_pdp_core();
-
-
-/**
- * Require plugin functions file.
- */
-require_once PDP_PLUGIN_PATH . 'pdp_core-functions.php';
