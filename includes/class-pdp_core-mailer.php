@@ -12,7 +12,7 @@ class PDP_Core_Mailer{
 
 		$this->admin_emails = array_merge(
 			[get_option( 'admin_email' )],
-//			$additional_recipients
+			$additional_recipients
 		);
 
 		add_filter( 'wp_mail_content_type', function( $content_type ){
