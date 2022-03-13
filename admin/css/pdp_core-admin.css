@@ -1,0 +1,203 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+#toplevel_page_crb_carbon_fields_container_pied-de-poule .wp-menu-image,
+#toplevel_page_pdp-options .wp-menu-image {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='20' fill='none'%3E%3Cpath d='M17 4V0l-4 4H9l-8 8h4l4-4v4h4l-4 4v4l8-8V8l4-4h-4z' fill='%23392BDF'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px;
+}
+
+#toplevel_page_pdp-options .toplevel_page_pdp-options {
+    background: black;
+}
+
+
+#menu-posts-salon .wp-menu-image {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23392BDF'%3E%3Cpath d='M122 175c18 16 30 37 34 61l5 32c1 6 5 9 11 9h168c6 0 10-3 11-9l5-32c4-24 16-45 34-61a11 11 0 000-16c-8-6-17-10-27-10h-96v-21h53c24 0 43-19 43-43V43c0-24-19-43-43-43H192c-24 0-43 19-43 43v42c0 24 19 43 43 43h53v21h-96c-10 0-19 4-27 10a11 11 0 000 16z'/%3E%3Cpath d='M459 171c-41 0-75 29-82 69l-9 59H144l-9-60c-7-39-41-68-82-68a32 32 0 000 64c9 0 17 6 18 15l10 59c6 31 32 54 63 54h100l-6 65c-46 2-89 16-89 41 0 30 56 43 107 43s107-13 107-43c0-25-43-39-89-41l-6-65h100c31 0 57-23 63-54l10-59c1-9 9-15 18-15a32 32 0 000-64z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px;
+}
+
+#menu-posts-promotion .wp-menu-image {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448.3 448.3' fill='%23392BDF'%3E%3Cpath d='M0 195c0 17 10 32 26 38v-73l1-3c-16 6-27 21-27 38zM143 285H74l26 93c4 14 16 24 31 24 11 0 20-5 27-13 6-8 8-19 5-29l-20-75zM27 156zM401 149h-4v94h4a47 47 0 100-94zM42 160v75c0 19 16 34 35 34h95V128H77c-18 0-35 14-35 32zM188 271l193 77V46l-193 78z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px;
+}
+
+#menu-posts-master .wp-menu-image {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23392BDF'%3E%3Cpath d='M421 385l-82-20-4-19c56-10 85-27 86-27a11 11 0 002-18c-1 0-39-32-39-141 0-92-22-139-64-139h-6C298 7 287 0 256 0c-40 0-128 40-128 160 0 109-38 141-38 141a11 11 0 000 17c2 1 31 18 87 28l-4 19-82 20C37 398 0 446 0 501c0 6 5 11 11 11h490c6 0 11-5 11-11 0-55-37-103-91-116z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px;
+}
+
+#menu-posts-vacancy .wp-menu-image {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -31 512 512' fill='%23392BDF'%3E%3Cpath d='M211 240h90v30h-90zm0 0'/%3E%3Cpath d='M415 270h-84v15c0 8-7 15-15 15H196c-8 0-15-7-15-15v-15H97c-20 0-37-12-43-31L0 77v328c0 25 20 45 45 45h422c25 0 45-20 45-45V77l-54 162c-6 19-23 31-43 31zm0 0'/%3E%3Cpath d='M316 0H196c-25 0-45 20-45 45v15H26l56 170c2 6 8 10 15 10h84v-15c0-8 7-15 15-15h120c8 0 15 7 15 15v15h84c7 0 13-4 15-10l56-170H361V45c0-25-20-45-45-45zM181 60V45c0-8 7-15 15-15h120c8 0 15 7 15 15v15zm0 0'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 20px;
+}
+
+
+/**
+ *  Buttons
+ */
+
+a.pdp-btn,
+button.pdp-btn {
+    position: relative;
+    display: inline-block;
+    color: black;
+    padding: 4px 16px 6px;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid #392BDF;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.pdp-btn:disabled {
+    color: #aaa;
+    border-color: #aaa;
+    cursor: not-allowed;
+}
+
+a.pdp-btn.loading:before,
+button.pdp-btn.loading:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    display: block;
+    top: calc(50% - 8px);
+    left: calc(50% - 8px);
+    width: 16px;
+    height: 16px;
+    border: 4px solid #392BDF;
+    border-top-color: transparent;
+    border-radius: 50%;
+    z-index: 1;
+    animation: loaderSpin 1s infinite linear;
+}
+
+
+/**
+ *  Headings
+ */
+
+h2.pdp-admin-heading {
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 2em;
+}
+
+
+/**
+ *  Admin pages body
+ */
+
+.pdp-admin-page__header {
+    padding: 10px 20px;
+    background-color: #392BDF;
+    border-radius: 4px 4px 0 0;
+}
+
+.pdp-admin-page__header h2 {
+    color: white;
+}
+
+/**
+.pdp-admin-page__body {
+    padding: 20px;
+    background-color: white;
+}
+**/
+
+
+/**
+ *  Salons list
+ */
+
+.salons-list {
+    box-shadow: 0 8px 16px rgba(0,0,0,.03);
+}
+
+.salons-list__header {
+    padding: 20px;
+    background-color: white;
+}
+
+.salons-list__header h3 {
+    margin: 0;
+}
+
+.salons-list__body {
+    background-color: #f8f8f8;
+}
+
+.salons-list__row {
+    display: grid;
+    grid-template-columns: 300px minmax(400px, 1fr) 1fr auto;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.salons-list__row:last-child {
+    border-bottom: 0;
+}
+
+.salons-list__row.disabled {
+    background-color: #ddd;
+}
+
+.salons-list__row.disabled .salons-list__col_title {
+    color: #aaa;
+}
+
+.salons-list__col {
+    padding: 10px;
+}
+
+.salons-list__col_title {
+    color: black;
+}
+
+.salons-list__col_id,
+.salons-list__col_date {
+    color: #aaa;
+}
+
+.salons-list__footer {
+    padding: 20px;
+    background-color: white;
+    border-radius: 0 0 4px 4px;
+}
+
+
+/**
+ *  Info box
+ */
+
+.pdp-infobox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightblue;
+}
+
+.pdp-infobox.alert {
+    border-color: red;
+}
+
+/**
+ *  Animations
+ */
+
+@keyframes loaderSpin {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}

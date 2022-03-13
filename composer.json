@@ -1,0 +1,24 @@
+{
+    "name": "blackhardd/pdp_core",
+    "authors": [
+        {
+            "name": "Blackharddd",
+            "email": "djalexmurcer@gmail.com"
+        }
+    ],
+    "require": {
+        "google/apiclient": "^2.7",
+        "htmlburger/carbon-fields": "^3.3"
+    },
+    "scripts": {
+        "post-update-cmd": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Oauth2",
+            "Drive",
+            "Sheets",
+            "Docs"
+        ]
+    }
+}
