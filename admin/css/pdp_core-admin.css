@@ -91,22 +91,20 @@ h2.pdp-admin-heading {
  *  Admin pages body
  */
 
-.pdp-admin-page__header {
+.pdp-admin-page-header {
     padding: 10px 20px;
     background-color: #392BDF;
     border-radius: 4px 4px 0 0;
 }
 
-.pdp-admin-page__header h2 {
+.pdp-admin-page-header h2 {
     color: white;
 }
 
-/**
-.pdp-admin-page__body {
+.pdp-admin-page-body {
     padding: 20px;
     background-color: white;
 }
-**/
 
 
 /**
@@ -201,3 +199,8 @@ h2.pdp-admin-heading {
         transform: rotateZ(360deg);
     }
 }
+
+
+/**
+ *  Media Queries
+ */

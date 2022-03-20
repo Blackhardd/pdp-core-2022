@@ -16,6 +16,7 @@
 					<div class="salons-list__header">
 						<h3><?=__( 'Салоны', 'pdp_core' ); ?></h3>
 					</div>
+
 					<div class="salons-list__body">
 						<?php foreach( $salons as $salon ) : ?>
 							<div class="salons-list__row <?=( !$salon->_pricelist_sheet_id ) ? 'disabled' : ''; ?>">

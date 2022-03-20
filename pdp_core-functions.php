@@ -22,16 +22,29 @@ function pdp_carbon_fields_load(){
 add_action( 'admin_menu', function(){
 	add_submenu_page(
 		'crb_carbon_fields_container_pied-de-poule.php',
-		'Синхронизация цен',
-		'Синхронизация цен',
+		__( 'Синхронизация цен', 'pdp' ),
+		__( 'Синхронизация цен', 'pdp' ),
 		'manage_options',
 		'google-api-settings',
-		'pdp_google_api_settings'
+		'pdp_admin_page_pricelists_sync'
+	);
+
+	add_submenu_page(
+		'crb_carbon_fields_container_pied-de-poule.php',
+		__( 'Лента Instagram', 'pdp' ),
+		__( 'Лента Instagram', 'pdp' ),
+		'manage_options',
+		'pdp-instagram-sync',
+		'pdp_admin_page_instagram_feed'
 	);
 }, 11 );
 
-function pdp_google_api_settings(){
+function pdp_admin_page_pricelists_sync(){
     require PDP_PLUGIN_PATH . 'templates/pricelists-sync.php';
+}
+
+function pdp_admin_page_instagram_feed(){
+	require PDP_PLUGIN_PATH . 'templates/instagram-feed.php';
 }
 
 
@@ -142,6 +155,7 @@ function pdp_service_slug_to_key( $str ){
 	return str_replace( [' ', '/'], '-', mb_strtolower( pdp_cyr_to_lat( $str ) ) );
 }
 
+
 /**
  *  Fetch Price List
  */
@@ -172,6 +186,7 @@ function pdp_fetch_pricelists( $salon = false ){
 		update_post_meta( $salon_id, '_pricelist_last_update', current_time( "Y-m-d H:i:s" ) );
 	}
 }
+
 
 /**
  *  Price List Parser
@@ -375,6 +390,7 @@ if( !function_exists( 'write_log' ) ){
 	}
 }
 
+
 /**
  *  Getting service categories
  */
@@ -399,6 +415,7 @@ function pdp_get_service_categories(){
 
 	return $categories;
 }
+
 
 /**
  *  Getting salon pricelist

@@ -32,17 +32,30 @@ require PDP_PLUGIN_PATH . 'includes/class-pdp_core.php';
 require PDP_PLUGIN_PATH . 'pdp_core-functions.php';
 require PDP_PLUGIN_PATH . 'pdp_core-cron.php';
 
-register_activation_hook( __FILE__, 'pdp_activate_cron' );
 
-function pdp_activate_cron(){
+/**
+ *  Initialize CRON tasks on plugin activation.
+ */
+
+register_activation_hook( __FILE__, 'pdp_init_cron' );
+
+function pdp_init_cron(){
 	if( !wp_next_scheduled( 'pdp_cron_update_pricelists_daily' ) ){
+		wp_clear_scheduled_hook( 'pdp_cron_update_pricelists_daily' );
 		wp_schedule_event( strtotime( date( 'Y-m-d', time() ) . ' 02:00:00' ), 'daily', 'pdp_cron_update_pricelists_daily' );
 	}
 }
 
-function run_pdp_core() {
-	$plugin = new PDP_Core();
-	$plugin->run();
+
+/**
+ *  Clear CRON tasks on plugin deactivation.
+ */
+
+register_deactivation_hook( __FILE__, 'pdp_clear_cron' );
+
+function pdp_clear_cron(){
+	wp_clear_scheduled_hook( 'pdp_cron_update_pricelists_daily' );
 }
 
-run_pdp_core();
+$plugin = new PDP_Core();
+$plugin->run();

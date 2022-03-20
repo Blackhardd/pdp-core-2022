@@ -43,7 +43,6 @@ class PDP_Core_Ajax {
             'gift_box_order',
             'gifts_order',
             'salon_booking',
-
             'school_application',
             'vacancy_apply'
         );
@@ -57,7 +56,8 @@ class PDP_Core_Ajax {
     private function register_admin_actions(){
     	$actions = array(
     		'sync_pricelist',
-    		'sync_pricelists'
+    		'sync_pricelists',
+		    'instagram_feed_sync'
 	    );
 
     	foreach( $actions as $action ){
@@ -189,5 +189,11 @@ class PDP_Core_Ajax {
 		pdp_fetch_pricelists();
 
 		$this->response( true, 'Sync all.' );
+	}
+
+	public function instagram_feed_sync(){
+		$instagram = new PDP_Core_Instagram();
+		$instagram->fetch_user_media();
+		$this->response( true, 'Лента Instagram подгружена.' );
 	}
 }
