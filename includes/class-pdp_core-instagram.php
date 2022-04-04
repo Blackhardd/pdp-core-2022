@@ -139,6 +139,12 @@ class PDP_Core_Instagram {
 		$media = $this->get_user_media();
 
 		if( $media && count( $media['data'] ) > 0 ){
+			if( !function_exists( 'media_sideload_image' ) ){
+				require_once( ABSPATH . 'wp-admin/includes/media.php' );
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			}
+
 			$media_items = array_reverse( array_slice( $media['data'], 0, 9 ) );
 			$uploaded = get_option( 'instagram_feed_uploads', array() );
 
