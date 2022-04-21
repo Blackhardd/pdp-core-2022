@@ -398,14 +398,18 @@ if( !function_exists( 'write_log' ) ){
 function pdp_get_service_categories(){
 	$categories = array();
 	$categories_raw = carbon_get_theme_option( 'service_categories' );
+	$langs = pll_languages_list( ['hide_empty' => false] );
 
 	foreach( $categories_raw as $category ){
+		$name = array();
+
+		foreach( $langs as $lang ){
+			$name[$lang === 'uk' ? 'ua' : $lang] = $category['title_' . $lang === 'uk' ? 'ua' : $lang];
+		}
+
 		$categories[] = array(
 			'slug'      => pdp_service_slug_to_key( $category['slug'] ),
-			'name'      => array(
-				'ru'        => $category['title'],
-				'ua'        => $category['title_ua']
-			),
+			'name'      => $name,
 			'cover'     => array(
 				'1x'        => wp_get_attachment_image_url( $category['cover1x'], 'full' ),
 				'2x'        => wp_get_attachment_image_url( $category['cover2x'], 'full' )
