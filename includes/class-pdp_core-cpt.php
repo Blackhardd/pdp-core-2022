@@ -308,7 +308,7 @@ class PDP_Core_CPT {
             'hierarchical'          => false,
             'menu_position'         => 6,
             'menu_icon'             => 'none',
-            'supports'              => array( 'title', 'editor', 'excerpt' )
+            'supports'              => array( 'title', 'editor' )
         ) );
     }
 
@@ -316,7 +316,6 @@ class PDP_Core_CPT {
 	    Container::make( 'post_meta', __( 'Настройки вакансии', 'pdp' ) )
 	        ->where( 'post_type', '=', 'vacancy' )
 	        ->add_fields( array(
-	        	Field::make( 'rich_text', 'preview', __( 'Короткое описание', 'pdp' ) ),
 	        	Field::make( 'radio', 'actual', __( 'Актуальность', 'pdp' ) )
 		             ->set_options( array(
 		             	'true'      => __( 'Актуально', 'pdp' ),
