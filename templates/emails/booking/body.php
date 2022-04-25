@@ -29,6 +29,7 @@
         </td>
     </tr>
 <?php endif; ?>
+
 <?php if( isset( $data['salon_name'] ) ) : ?>
     <tr>
         <td>
@@ -43,6 +44,7 @@
         </td>
     </tr>
 <?php endif; ?>
+
 <tr>
 	<td>
 		<table width="100%" style="margin-bottom: 30px; border-spacing: 0">
@@ -57,6 +59,22 @@
 		</table>
 	</td>
 </tr>
+
+<?php if( isset( $data['data']['promotion'] ) ) : ?>
+    <tr>
+        <td>
+            <table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+                <tr>
+                    <td><h4 style="margin: 0;"><?=__( 'Акция', 'pdp_core' ); ?>:</h4></td>
+                </tr>
+                <tr>
+                    <td><?=$data['data']['promotion']; ?></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+<?php endif; ?>
+
 <?php if( isset( $data['data']['cart']['master_option'] ) || isset( $data['data']['is_hair_services'] ) ) :
 	$hair_length = pdp_get_hair_length_title( $data['data']['cart']['hair_length'] ); ?>
     <tr>
