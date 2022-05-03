@@ -107,7 +107,7 @@ function pdp_remove_page_links_for_hierarchical_taxonomies( $selects, $args, $ta
 }
 
 
-function pdp_get_pricelists_id(){
+function pdp_get_salons_pricelist_id(){
 	$salons = pdp_get_salons( 'ASC', 'all' );
 
 	$data = [];
@@ -125,12 +125,27 @@ function pdp_get_pricelists_id(){
 	return $data;
 }
 
-function pdp_get_pricelist_id( $salon_id = false ){
-	if( $salon_id ){
-		return carbon_get_post_meta( $salon_id, 'pricelist_sheet_id' );
+function pdp_get_salon_pricelist_id( $salon_id = false ){
+	if( !$salon_id ){
+		return [];
 	}
 
-	return false;
+	$available_languages = pll_languages_list( ['hide_empty' => false] );
+	$data = [];
+
+	foreach( $available_languages as $language ){
+		$id = pll_get_post( $salon_id, $language );
+		$spreadsheet_id = carbon_get_post_meta( $id, 'pricelist_sheet_id' );
+
+		if( !empty( $id ) && !empty( $spreadsheet_id ) ){
+			$data[] = array(
+				'salon_id'          => $id,
+				'spreadsheet_id'    => $spreadsheet_id
+			);
+		}
+	}
+
+	return $data;
 }
 
 function pdp_cyr_to_lat( $str ){
@@ -165,25 +180,27 @@ function pdp_fetch_pricelists( $salon = false ){
 	$client = $google_api->get_client();
 	$service = new Google_Service_Sheets( $client );
 
-	$prielists = ( $salon ) ? [pdp_get_pricelist_id( $salon )] : pdp_get_pricelists_id();
+	$pricelists = $salon ? pdp_get_salon_pricelist_id( $salon ) : pdp_get_salons_pricelist_id();
 
-	foreach( $prielists as $pricelist ){
+	foreach( $pricelists as $pricelist ){
 		$ranges = [];
 		$titles = [];
-		$spreadsheet_id = ( $salon ) ? $pricelist : $pricelist['spreadsheet_id'];
-		$salon_id = ( $salon ) ? $salon : $pricelist['salon_id'];
 
-		$spreadsheet = $service->spreadsheets->get( $spreadsheet_id );
+		$spreadsheet = $service->spreadsheets->get( $pricelist['spreadsheet_id'] );
 
 		foreach( $spreadsheet->getSheets() as $sheet ){
-			$ranges[] = $sheet['properties']['title'] . '!A:J';
+			$ranges[] = $sheet['properties']['title'] . '!A:O';
 			$titles[] = rtrim( $sheet['properties']['title'] );
 		}
 
-		$response = $service->spreadsheets_values->batchGet( $spreadsheet_id, array( 'ranges' => $ranges ) )->getValueRanges();
+		$response = $service->spreadsheets_values->batchGet( $pricelist['spreadsheet_id'], array( 'ranges' => $ranges ) )->getValueRanges();
 
-		update_post_meta( $salon_id, '_pricelist', pdp_parse_pricelist( $titles, $response ) );
-		update_post_meta( $salon_id, '_pricelist_last_update', current_time( "Y-m-d H:i:s" ) );
+		$parsed = pdp_parse_pricelist( $titles, $response );
+
+		if( $parsed ){
+			update_post_meta( $pricelist['salon_id'], '_pricelist', $parsed );
+			update_post_meta( $pricelist['salon_id'], '_pricelist_last_update', current_time( "Y-m-d H:i:s" ) );
+		}
 	}
 }
 
@@ -196,6 +213,8 @@ function pdp_parse_pricelist( $categories, $data ){
 	$parsed_data = [];
 
 	foreach( $data as $key => $range ){
+		$available_langs = [];
+
 		$category_names = [];
 		$services = [];
 		$subcategory_services = [];
@@ -206,18 +225,26 @@ function pdp_parse_pricelist( $categories, $data ){
 		$is_master_option = false;
 		$is_variable_price = false;
 
-		foreach( $range as $row ){
-			if( isset( $row[0] ) && $row[0] != '' ){
+		foreach( $range as $row_index => $row ){
+			if( isset( $row[0] ) && $row[0] !== '' ){
 				$row = array_values( array_filter( $row ) );
 
-				if( strpos( $row[0], '[category]' ) !== false ){
-					$category_names['ru'] = str_replace( '[category]', '', rtrim( array_shift( $row ) ) );
-					$category_names['ua'] = rtrim( array_shift( $row ) );
+				if( $row_index === 0 ){
+					foreach( $row as $column_index => $column ){
+						strpos( $column, '[lang="' ) !== false ? $available_langs[] = str_replace( ['[lang="', '"]'], '', $column ) : null;
+					}
 				}
-				else if( $row[0] == '[subcategory-begin]' ){
+				else if( strpos( $row[0], '[category]' ) !== false ){
+					foreach( $available_langs as $available_lang ){
+						$category_names[$available_lang] = str_replace( '[category]', '', rtrim( array_shift( $row ) ) );
+					}
+
+					write_log( $category_names );
+				}
+				else if( $row[0] === '[subcategory-begin]' ){
 					$is_subcategory = true;
 				}
-				else if( $row[0] == '[subcategory-end]' ){
+				else if( $row[0] === '[subcategory-end]' ){
 					$subcategories[] = array(
 						'name'      => $subcategory_title,
 						'services'  => $subcategory_services
@@ -229,21 +256,16 @@ function pdp_parse_pricelist( $categories, $data ){
 				}
 				else{
 					if( strpos( $row[0], '[subcategory-title]' ) !== false ){
-						$subcategory_title['ru'] = str_replace( '[subcategory-title]', '', $row[0] );
-						$subcategory_title['ua'] = $row[1];
+						foreach( $available_langs as $lang_key => $available_lang ){
+							$subcategory_title[$available_lang] = str_replace( '[subcategory-title]', '', $row[$lang_key] );
+						}
 					}
 					else{
 						$current_service = [];
-						$is_pro = false;
+						$is_pro = boolval( strpos( $row[0], '[pro]' ) );
 
-						if( strpos( $row[0], '[pro]' ) !== false ){
-							$current_service['name']['ru'] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
-							$current_service['name']['ua'] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
-							$is_pro = true;
-						}
-						else{
-							$current_service['name']['ru'] = rtrim( array_shift( $row ) );
-							$current_service['name']['ua'] = rtrim( array_shift( $row ) );
+						foreach( $available_langs as $lang_key => $available_lang ){
+							$current_service['name'][$available_lang] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
 						}
 
 						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name']['ru'] );
@@ -302,9 +324,9 @@ function pdp_parse_pricelist( $categories, $data ){
 		);
 
 		if(
-			$categories[$key] == 'стрижки/укладки/прически' ||
-		    $categories[$key] == 'уходы для волос' ||
-		    $categories[$key] == 'все виды окрашиваний'
+			$categories[$key] === 'стрижки/укладки/прически' ||
+		    $categories[$key] === 'уходы для волос' ||
+		    $categories[$key] === 'все виды окрашиваний'
 		){
 			$category['is_hair_services'] = true;
 		}
