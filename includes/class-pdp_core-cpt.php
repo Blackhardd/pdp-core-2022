@@ -91,6 +91,7 @@ class PDP_Core_CPT {
             ->where( 'post_type', '=', 'salon' )
             ->add_tab( __( 'Основная информация', 'pdp' ), array(
 	            Field::make( 'text', 'title', __( 'Заголовок', 'pdp' ) ),
+	            Field::make( 'text', 'outer_link', __( 'Внешняя ссылка', 'pdp' ) ),
 	            Field::make( 'text', 'instagram', __( 'Instagram', 'pdp' ) ),
                 Field::make( 'text', 'email', __( 'Электронная почта', 'pdp' ) )
                     ->set_attribute( 'type', 'email' )
@@ -108,9 +109,7 @@ class PDP_Core_CPT {
                     ->set_width( 100 ),
 	            Field::make( 'textarea', 'notification_recipients', __( 'Email получателей уведомлений (через запятую)', 'pdp' ) ),
 	            Field::make( 'image', 'cover1x', __( 'Обложка (1x)', 'pdp' ) ),
-	            Field::make( 'image', 'cover2x', __( 'Обложка (2x)', 'pdp' ) ),
-	            Field::make( 'media_gallery', 'gallery', __( 'Галерея', 'pdp' ) )
-	                 ->set_type( 'image' )
+	            Field::make( 'image', 'cover2x', __( 'Обложка (2x)', 'pdp' ) )
             ) )
 	        ->add_tab( __( 'Галерея', 'pdp' ), array(
 				Field::make( 'complex', 'slider_gallery', __( 'Слайды', 'pdp' ) )
