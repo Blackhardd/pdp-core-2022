@@ -267,9 +267,7 @@ function pdp_parse_pricelist( $categories, $data ){
 						foreach( $available_langs as $lang_key => $available_lang ){
 							$current_service['name'][$available_lang] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
 						}
-
-						write_log( $categories[$key] );
-
+						
 						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name'][$default_language] );
 
 						switch( count( $row ) ){
