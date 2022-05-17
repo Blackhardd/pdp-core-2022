@@ -66,6 +66,16 @@
 			<tr>
 				<td>
 					<table width="100%" style="padding: 16px; border-spacing: 0;">
+						<tr>
+							<td>
+								<table width="100%" style="margin-bottom: 16px; border-spacing: 0">
+									<tr>
+										<td><?=__( 'Сайт', 'pdp_core' ); ?>: <a href="<?=get_option( 'siteurl' ); ?>"><?=get_option( 'siteurl' ); ?></a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						
 						<?=$data['content']; ?>
 					</table>
 				</td>
