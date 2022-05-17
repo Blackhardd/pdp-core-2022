@@ -10,13 +10,12 @@
  * Plugin Name:       PIED-DE-POULE Core
  * Plugin URI:        https://www.instagram.com/lovu_volnu/
  * Description:       Core functionality plugin.
- * Version:           1.0.1
+ * Version:           2.0.1
  * Author:            Alexander Piskun
  * Author URI:        https://www.instagram.com/lovu_volnu/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pdp_core
- * Domain Path:       /languages
  */
 
 if( !defined( 'WPINC' ) ) :
