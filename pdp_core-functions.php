@@ -210,6 +210,8 @@ function pdp_fetch_pricelists( $salon = false ){
  */
 
 function pdp_parse_pricelist( $categories, $data ){
+	$default_language = pll_default_language();
+
 	$parsed_data = [];
 
 	foreach( $data as $key => $range ){
@@ -268,7 +270,7 @@ function pdp_parse_pricelist( $categories, $data ){
 							$current_service['name'][$available_lang] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
 						}
 
-						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name']['ru'] );
+						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name'][$default_language] );
 
 						switch( count( $row ) ){
 							case 1:

@@ -12,7 +12,7 @@ class PDP_Core_Mailer{
 
 		$this->admin_emails = array_merge(
 			[get_option( 'admin_email' )],
-			$additional_recipients
+			// $additional_recipients
 		);
 
 		add_filter( 'wp_mail_content_type', function( $content_type ){
@@ -48,6 +48,10 @@ class PDP_Core_Mailer{
 	}
 
 	private function get_template_simple_cart( $service ){
+		$service = array_filter( pdp_get_service_categories(), function( $cat ) use ( $service ) {
+			return $cat['slug'] === $service;
+		} )['0']['name'][pdp_get_current_language()];
+
 		ob_start();
 		pdp_get_template( 'emails/booking/simple-cart.php', ['service' => $service] );
 		return ob_get_clean();
@@ -129,15 +133,15 @@ class PDP_Core_Mailer{
 	}
 
 	public function gift_card_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного сертификата', 'pdp_core' ), $this->get_template_gift_card( $data ), array(), 'djalexmurcer@gmail.com' );
+		return $this->send_to_admins( __( 'Заказ подарочного сертификата', 'pdp_core' ), $this->get_template_gift_card( $data ), array() );
 	}
 
 	public function gift_box_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного бокса', 'pdp_core' ), $this->get_template_gift_box( $data ), array(), 'djalexmurcer@gmail.com' );
+		return $this->send_to_admins( __( 'Заказ подарочного бокса', 'pdp_core' ), $this->get_template_gift_box( $data ), array() );
 	}
 
 	public function gifts_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного набора', 'pdp_core' ), $this->get_template_gifts( $data ), array(), 'djalexmurcer@gmail.com' );
+		return $this->send_to_admins( __( 'Заказ подарочного набора', 'pdp_core' ), $this->get_template_gifts( $data ), array() );
 	}
 
 	public function salon_booking_notification( $data ){
