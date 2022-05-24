@@ -426,7 +426,7 @@ function pdp_get_service_categories(){
 		$name = array();
 
 		foreach( $langs as $lang ){
-			$name[$lang === 'uk' ? 'ua' : $lang] = $category['title_' . $lang === 'uk' ? 'ua' : $lang];
+			$name[$lang === 'uk' ? 'ua' : $lang] = $category[$lang === 'uk' ? 'ua' : $lang];
 		}
 
 		$categories[] = array(
