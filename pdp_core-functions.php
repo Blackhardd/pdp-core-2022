@@ -210,6 +210,8 @@ function pdp_fetch_pricelists( $salon = false ){
  */
 
 function pdp_parse_pricelist( $categories, $data ){
+	$default_language = pdp_get_default_language();
+
 	$parsed_data = [];
 
 	foreach( $data as $key => $range ){
@@ -238,8 +240,6 @@ function pdp_parse_pricelist( $categories, $data ){
 					foreach( $available_langs as $available_lang ){
 						$category_names[$available_lang] = str_replace( '[category]', '', rtrim( array_shift( $row ) ) );
 					}
-
-					write_log( $category_names );
 				}
 				else if( $row[0] === '[subcategory-begin]' ){
 					$is_subcategory = true;
@@ -267,8 +267,8 @@ function pdp_parse_pricelist( $categories, $data ){
 						foreach( $available_langs as $lang_key => $available_lang ){
 							$current_service['name'][$available_lang] = str_replace( '[pro]', '', rtrim( array_shift( $row ) ) );
 						}
-
-						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name']['ru'] );
+						
+						$current_service['id'] = md5( $categories[$key] . '_' . $current_service['name'][$default_language] );
 
 						switch( count( $row ) ){
 							case 1:
@@ -305,13 +305,7 @@ function pdp_parse_pricelist( $categories, $data ){
 
 						$current_service['pro'] = $is_pro;
 
-
-						if( $is_subcategory ){
-							$subcategory_services[] = $current_service;
-						}
-						else{
-							$services[] = $current_service;
-						}
+						$is_subcategory ? $subcategory_services[] = $current_service : $services[] = $current_service;
 					}
 				}
 			}
@@ -353,19 +347,6 @@ function pdp_parse_pricelist( $categories, $data ){
 function pdp_get_template( $path = '', $data = [] ){
 	if( $path && is_string( $path ) ) {
 		require( PDP_PLUGIN_PATH . 'templates/' . $path );
-	}
-}
-
-function pdp_get_hair_length_title( $id = false ){
-	if( $id !== false ){
-		$lengths = array(
-			__( 'от 5-15 см', 'pdp' ),
-			__( 'от 15 - 25 см (выше плеч, каре, боб)', 'pdp' ),
-			__( 'от 25 - 40 см (ниже плеч/выше лопаток)', 'pdp' ),
-			__( 'от 40 - 60 см (ниже лопаток)', 'pdp' )
-		);
-
-		return $lengths[$id];
 	}
 }
 

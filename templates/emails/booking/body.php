@@ -1,7 +1,7 @@
 <?php if( isset( $data['data']['page_title'] ) && isset( $data['data']['page_url'] ) ) : ?>
     <tr>
         <td>
-            <table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+            <table width="100%" style="margin-bottom: 16px; border-spacing: 0">
                 <tr>
                     <td><h4 style="margin: 0;"><?=__( 'Аналитика', 'pdp_core' ); ?>:</h4></td>
                 </tr>
@@ -33,7 +33,7 @@
 <?php if( isset( $data['salon_name'] ) ) : ?>
     <tr>
         <td>
-            <table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+            <table width="100%" style="margin-bottom: 16px; border-spacing: 0">
                 <tr>
                     <td><h4 style="margin: 0;"><?=__( 'Салон', 'pdp_core' ); ?>:</h4></td>
                 </tr>
@@ -47,7 +47,7 @@
 
 <tr>
 	<td>
-		<table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+		<table width="100%" style="margin-bottom: 16px; border-spacing: 0">
 			<tr>
 				<td><h4><?=__( 'Контактные данные', 'pdp_core' ); ?>:</h4></td>
 			</tr>
@@ -60,10 +60,10 @@
 	</td>
 </tr>
 
-<?php if( isset( $data['data']['promotion'] ) ) : ?>
+<?php if( isset( $data['data']['promotion'] ) && $data['data']['promotion'] ) : ?>
     <tr>
         <td>
-            <table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+            <table width="100%" style="margin-bottom: 16px; border-spacing: 0">
                 <tr>
                     <td><h4 style="margin: 0;"><?=__( 'Акция', 'pdp_core' ); ?>:</h4></td>
                 </tr>
@@ -79,7 +79,7 @@
 	$hair_length = pdp_get_hair_length_title( $data['data']['cart']['hair_length'] ); ?>
     <tr>
         <td>
-            <table width="100%" style="margin-bottom: 30px; border-spacing: 0">
+            <table width="100%" style="margin-bottom: 16px; border-spacing: 0">
                 <tr>
                     <td><h4><?=__( 'Дополнительная информация', 'pdp_core' ); ?>:</h4></td>
                 </tr>

@@ -55,7 +55,7 @@
 				<td>
 					<table width="100%" style="border-spacing: 0; border-bottom: 1px solid #AA957C;">
 						<tr>
-							<td style="padding: 10px; text-align: center;">
+							<td style="padding: 16px; text-align: center;">
 								<a href="<?=get_option( 'siteurl' ); ?>"><img src="<?=wp_get_attachment_image_url( carbon_get_theme_option( 'email_logo' ), 'full' ); ?>" alt="Logo" title="PIED-DE-POULE"></a>
 							</td>
 						</tr>
@@ -65,7 +65,17 @@
 
 			<tr>
 				<td>
-					<table width="100%" style="padding: 20px; border-spacing: 0;">
+					<table width="100%" style="padding: 16px; border-spacing: 0;">
+						<tr>
+							<td>
+								<table width="100%" style="margin-bottom: 16px; border-spacing: 0">
+									<tr>
+										<td><?=__( 'Сайт', 'pdp_core' ); ?>: <a href="<?=get_option( 'siteurl' ); ?>"><?=get_option( 'siteurl' ); ?></a></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						
 						<?=$data['content']; ?>
 					</table>
 				</td>
