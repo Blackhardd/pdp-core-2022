@@ -1,6 +1,6 @@
 <?php
 
-class PDP_Core_Mailer{
+class PDP_Core_Mailer {
 	private $admin_emails;
 
 	public function __construct(){
@@ -10,10 +10,7 @@ class PDP_Core_Mailer{
 	private function init(){
 		$additional_recipients = explode( ',' , get_option( '_email_recipients' ) );
 
-		$this->admin_emails = array_merge(
-			[get_option( 'admin_email' )],
-			// $additional_recipients
-		);
+		$this->admin_emails = array_merge( [get_option( 'admin_email' )], $additional_recipients );
 
 		add_filter( 'wp_mail_content_type', function( $content_type ){
 			return 'text/html';
