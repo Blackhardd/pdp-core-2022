@@ -47,9 +47,9 @@ class PDP_Core_Mailer {
 	private function get_template_simple_cart( $service ){
 		$service = array_filter( pdp_get_service_categories(), function( $cat ) use ( $service ) {
 			return $cat['slug'] === $service;
-		} )['0']['name'][pdp_get_current_language()];
+		} );
 
-		write_log( $service );
+		$service = array_shift( $service )['name'][pdp_get_current_language()];
 
 		ob_start();
 		pdp_get_template( 'emails/booking/simple-cart.php', ['service' => $service] );
