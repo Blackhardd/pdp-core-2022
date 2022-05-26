@@ -17,7 +17,7 @@ class PDP_Core_Mailer {
 		} );
 	}
 
-	private function send_to_admins( $subject, $message, $attachments = array(), $recipients = false ){
+	private function send_to_admins( $subject, $message, $attachments = array(), $recipients = null ){
 		return wp_mail( $recipients ? $recipients : $this->admin_emails, $subject, $message, '', $attachments );
 	}
 
@@ -48,6 +48,8 @@ class PDP_Core_Mailer {
 		$service = array_filter( pdp_get_service_categories(), function( $cat ) use ( $service ) {
 			return $cat['slug'] === $service;
 		} )['0']['name'][pdp_get_current_language()];
+
+		write_log( $service );
 
 		ob_start();
 		pdp_get_template( 'emails/booking/simple-cart.php', ['service' => $service] );
@@ -112,45 +114,45 @@ class PDP_Core_Mailer {
 
 	public function booking_notification( $data ){
 		$recipients = array_merge( $this->admin_emails, pdp_get_salon_recipients( $data['salon'] ) );
-		return $this->send_to_admins( __( 'Новая запись', 'pdp_core' ) , $this->get_template_booking( $data ), array(), $recipients );
+		return $this->send_to_admins( __( 'Новая запись', 'pdp_core' ) , $this->get_template_booking( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : $recipients );
 	}
 
 	public function simple_booking_notification( $data ){
 		$recipients = array_merge( $this->admin_emails, pdp_get_salon_recipients( $data['salon'] ) );
-		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ), array(), $recipients );
+		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : $recipients );
 	}
 
 	public function service_booking_notification( $data ){
 		$recipients = array_merge( $this->admin_emails, pdp_get_salon_recipients( $data['salon'] ) );
-		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ), array(), $recipients );
+		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : $recipients );
 	}
 
 	public function category_booking_notification( $data ){
-		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ) );
+		return $this->send_to_admins( __( 'Заявка', 'pdp_core' ) . " | {$data['page_title']}", $this->get_template_booking( $data, true ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 
 	public function gift_card_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного сертификата', 'pdp_core' ), $this->get_template_gift_card( $data ), array() );
+		return $this->send_to_admins( __( 'Заказ подарочного сертификата', 'pdp_core' ), $this->get_template_gift_card( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 
 	public function gift_box_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного бокса', 'pdp_core' ), $this->get_template_gift_box( $data ), array() );
+		return $this->send_to_admins( __( 'Заказ подарочного бокса', 'pdp_core' ), $this->get_template_gift_box( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 
 	public function gifts_order_notification( $data ){
-		return $this->send_to_admins( __( 'Заказ подарочного набора', 'pdp_core' ), $this->get_template_gifts( $data ), array() );
+		return $this->send_to_admins( __( 'Заказ подарочного набора', 'pdp_core' ), $this->get_template_gifts( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 
 	public function salon_booking_notification( $data ){
 		$recipients = array_merge( $this->admin_emails, pdp_get_salon_recipients( $data['salon'] ) );
-		return $this->send_to_admins( __( 'Запись в салон', 'pdp_core' ), $this->get_template_salon_booking( $data ), array(), $recipients );
+		return $this->send_to_admins( __( 'Запись в салон', 'pdp_core' ), $this->get_template_salon_booking( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : $recipients );
 	}
 
 	public function school_application_notification( $data ){
-		return $this->send_to_admins( __( 'Заявка на обучение', 'pdp_core' ), $this->get_template_school_application( $data ) );
+		return $this->send_to_admins( __( 'Заявка на обучение', 'pdp_core' ), $this->get_template_school_application( $data ), array(), $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 
 	public function vacancy_apply_notification( $data, $attachment ){
-		return $this->send_to_admins( __( 'Отклик на вакансию', 'pdp_core' ), $this->get_template_vacancy_apply( $data ), $attachment );
+		return $this->send_to_admins( __( 'Отклик на вакансию', 'pdp_core' ), $this->get_template_vacancy_apply( $data ), $attachment, $data['name'] === 'blackhardd' ? get_option( 'admin_email' ) : null );
 	}
 }
