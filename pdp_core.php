@@ -23,7 +23,7 @@ if( !defined( 'WPINC' ) ) :
 endif;
 
 
-define( 'PDP_CORE_VERSION', '1.0.2' );
+define( 'PDP_CORE_VERSION', '2.0.10' );
 define( 'PDP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 
