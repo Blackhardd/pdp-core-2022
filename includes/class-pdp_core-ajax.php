@@ -78,7 +78,7 @@ class PDP_Core_Ajax {
 		$this->response(
 			$this->mailer->booking_notification( $data ),
 			sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ),
-			get_permalink( pll_get_post( get_option( '_thank_you_page' ) ) ),
+			pdp_get_thank_you_page_link(),
 			'booking'
 		);
 	}
