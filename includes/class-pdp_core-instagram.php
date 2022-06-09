@@ -124,6 +124,7 @@ class PDP_Core_Instagram {
 					$long_access_token_response = $this->api_call( $long_access_token );
 
 					if( isset( $long_access_token_response['access_token'] ) ){
+						delete_option( 'instagram_feed_uploads' );
 						update_option( 'instagram_token', $long_access_token_response['access_token'] );
 						update_option( 'instagram_token_expires_in', time() + $long_access_token_response['expires_in'] );
 
