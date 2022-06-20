@@ -136,6 +136,30 @@ class PDP_Core_Instagram {
 		}
 	}
 
+	public function maybe_refresh_token(){
+		if( $this->token_expires_in - time() <= 259200 ){
+			$refresh_token_params = array(
+				'endpoint_url'  => $this->graph_url . 'refresh_access_token',
+				'type'          => 'GET',
+				'url_params'    => array(
+					'grant_type'    => 'ig_refresh_token',
+					'access_token'  => $this->access_token
+				)
+			);
+
+			$refresh_token_response = $this->api_call( $refresh_token_params );
+
+			if( isset( $refresh_token_response['access_token'] ) ){
+				$this->access_token = $refresh_token_response['access_token'];
+				$this->token_expires_in = time() + $refresh_token_response['expires_in'];
+
+				update_option( 'instagram_token', $this->access_token );
+				update_option( 'instagram_token_expires_in', $this->token_expires_in );
+			}
+		}
+
+	}
+
 	public function fetch_user_media(){
 		$media = $this->get_user_media();
 
