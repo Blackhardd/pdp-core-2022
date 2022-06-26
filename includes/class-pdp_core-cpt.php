@@ -90,6 +90,7 @@ class PDP_Core_CPT {
         Container::make( 'post_meta', __( 'Настройки салона', 'pdp' ) )
             ->where( 'post_type', '=', 'salon' )
             ->add_tab( __( 'Основная информация', 'pdp' ), array(
+            	Field::make( 'text', 'order_position', __( 'Позиция в списках', 'pdp' ) ),
 	            Field::make( 'text', 'title', __( 'Заголовок', 'pdp' ) ),
 	            Field::make( 'text', 'outer_link', __( 'Внешняя ссылка', 'pdp' ) ),
 	            Field::make( 'text', 'instagram', __( 'Instagram', 'pdp' ) ),
