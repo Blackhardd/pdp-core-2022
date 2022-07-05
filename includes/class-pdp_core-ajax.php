@@ -87,7 +87,11 @@ class PDP_Core_Ajax {
     	if( $this->check_nonce( 'simple_booking' ) ){
 		    $data = pdp_get_post_data();
 
-		    $this->response( $this->mailer->simple_booking_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+		    $this->response(
+		    	$this->mailer->simple_booking_notification( $data ),
+			    sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ),
+			    pdp_get_thank_you_page_link()
+		    );
 	    }
     }
 
@@ -95,7 +99,11 @@ class PDP_Core_Ajax {
 		if( $this->check_nonce( 'category_booking' ) ) {
 			$data = pdp_get_post_data();
 
-			$this->response( $this->mailer->category_booking_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+			$this->response(
+				$this->mailer->category_booking_notification( $data ),
+				sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ),
+				pdp_get_thank_you_page_link()
+			);
 		}
 	}
 
@@ -103,7 +111,11 @@ class PDP_Core_Ajax {
 		if( $this->check_nonce( 'service_booking' ) ) {
 			$data = pdp_get_post_data();
 
-			$this->response( $this->mailer->service_booking_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+			$this->response(
+				$this->mailer->service_booking_notification( $data ),
+				sprintf( '%s<br>%s', __( 'Спасибо за запись!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ),
+				pdp_get_thank_you_page_link()
+			);
 		}
 	}
 
@@ -111,9 +123,10 @@ class PDP_Core_Ajax {
 		if( $this->check_nonce( 'gift_card_order' ) ){
 			$data = pdp_get_post_data();
 
-			write_log( $data );
-
-			$this->response( $this->mailer->gift_card_order_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+			$this->response(
+				$this->mailer->gift_card_order_notification( $data ),
+				sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) )
+			);
 		}
 	}
 
@@ -121,9 +134,10 @@ class PDP_Core_Ajax {
 		if( $this->check_nonce( 'gift_box_order' ) ){
 			$data = pdp_get_post_data();
 
-			write_log( $data );
-
-			$this->response( $this->mailer->gift_box_order_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+			$this->response(
+				$this->mailer->gift_box_order_notification( $data ),
+				sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) )
+			);
 		}
 	}
 
@@ -131,16 +145,21 @@ class PDP_Core_Ajax {
 		if( $this->check_nonce( 'gifts_order' ) ){
 			$data = pdp_get_post_data();
 
-			write_log( $data );
-
-			$this->response( $this->mailer->gifts_order_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+			$this->response(
+				$this->mailer->gifts_order_notification( $data ),
+				sprintf( '%s<br>%s', __( 'Спасибо за заказ!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) )
+			);
 		}
 	}
 
 	public function salon_booking(){
     	if( $this->check_nonce( 'salon_booking' ) ){
     		$data = pdp_get_post_data();
-    		$this->response( $this->mailer->salon_booking_notification( $data ), sprintf( '%s<br>%s', __( 'Спасибо за заявку!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ) );
+    		$this->response(
+    			$this->mailer->salon_booking_notification( $data ),
+			    sprintf( '%s<br>%s', __( 'Спасибо за заявку!', 'pdp_core' ), __( 'В ближайшее время с вами свяжется наш менеджер.', 'pdp_core' ) ),
+			    pdp_get_thank_you_page_link()
+		    );
 	    }
 	}
 
