@@ -124,6 +124,10 @@ class PDP_Core_Instagram {
 					$long_access_token_response = $this->api_call( $long_access_token );
 
 					if( isset( $long_access_token_response['access_token'] ) ){
+						foreach( get_option( 'instagram_feed_uploads' ) as $attachment ){
+							wp_delete_attachment( $attachment['attachment_id'] );
+						}
+
 						delete_option( 'instagram_feed_uploads' );
 						update_option( 'instagram_token', $long_access_token_response['access_token'] );
 						update_option( 'instagram_token_expires_in', time() + $long_access_token_response['expires_in'] );
@@ -206,5 +210,17 @@ class PDP_Core_Instagram {
 
 	public function get_user_media(){
 		return $this->graph_call( 'media', array( 'id', 'username', 'media_url', 'media_type', 'thumbnail_url', 'permalink' ) );
+	}
+
+	public function unlink_account(){
+		$uploads = get_option( 'instagram_feed_uploads' );
+
+		foreach( $uploads as $attachment ){
+			wp_delete_attachment( $attachment['attachment_id'] );
+		}
+
+		delete_option( 'instagram_feed_uploads' );
+		delete_option( 'instagram_token' );
+		delete_option( 'instagram_token_expires_in' );
 	}
 }

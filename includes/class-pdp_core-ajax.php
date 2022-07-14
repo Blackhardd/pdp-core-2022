@@ -57,7 +57,8 @@ class PDP_Core_Ajax {
     	$actions = array(
     		'sync_pricelist',
     		'sync_pricelists',
-		    'instagram_feed_sync'
+		    'instagram_feed_sync',
+		    'instagram_unlink'
 	    );
 
     	foreach( $actions as $action ){
@@ -214,5 +215,11 @@ class PDP_Core_Ajax {
 		$instagram = new PDP_Core_Instagram();
 		$instagram->fetch_user_media();
 		$this->response( true, 'Лента Instagram подгружена.' );
+	}
+
+	public function instagram_unlink(){
+		$instagram = new PDP_Core_Instagram();
+		$instagram->unlink_account();
+		$this->response( true, __( 'Аккаунт отвязан.', 'pdp' ) );
 	}
 }

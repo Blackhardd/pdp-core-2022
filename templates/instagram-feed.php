@@ -15,7 +15,7 @@
 				<?=sprintf( __( 'Сайт связан с аккаунтом %s' ), "<a href='https://instagram.com/{$instagram->get_user_profile()['username']}' target='_blank'>@{$instagram->get_user_profile()['username']}</a>" ); ?>
 				<div style="margin-top: 12px;">
                     <button type="button" class="pdp-btn" data-ajax="instagram_feed_sync"><?=__( 'Синхронизировать', 'pdp' ); ?></button>
-                    <button type="button" class="pdp-btn" data-instagram-unlink><?=__( 'Отвязать', 'pdp' ); ?></button>
+                    <button type="button" class="pdp-btn" data-ajax="instagram_unlink"><?=__( 'Отвязать', 'pdp' ); ?></button>
                 </div>
 			<?php endif; ?>
 		</main>
